@@ -228,7 +228,12 @@ export const generate = async ({
         } catch (error) {
           return null;
         }
-        document.getElementById('ac-signup-iv-payee_phone_number').value = phoneNo;
+
+        let parsedNumber = /(\+[0-9]{2})([0-9]+)/.exec(phoneNo);
+        let countryCode = parsedNumber[1];
+        let phoneNumberWithoutPrefix = parsedNumber[2];
+        document.getElementById('ac-signup-iv-payee_phone_country_code').value = countryCode;
+        document.getElementById('ac-signup-iv-payee_phone_number').value = phoneNumberWithoutPrefix;
         document.getElementById('ac-signup-iv-call_btn-announce').click();
         const { textContent: phoneCode } = await waitElemToExist(
           node => node.parentElement
